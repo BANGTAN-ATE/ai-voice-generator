@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Echoforge — AI Voice Generator</title>
+<meta name="author" content="@bangtanATEofficial_0 on YT">
+<meta name="creator" content="@bangtanATEofficial_0 on YT">
+<meta name="credits" content="Created by @bangtanATEofficial_0 on YT">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -127,6 +130,13 @@ main.workspace{ flex:1 1 auto; min-width:0; overflow-y:auto; padding:22px 26px 9
 .btn-icon:hover{ background:var(--surface-2); color:var(--text); }
 
 .card{ background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius-lg); }
+
+/* AI assist dropdown */
+.ai-wrap{ position:relative; }
+.ai-menu{ position:absolute; top:calc(100% + 6px); left:0; background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius-md); box-shadow:var(--shadow); padding:6px; min-width:230px; z-index:50; display:none; }
+.ai-menu.show{ display:block; animation:fadein .18s ease; }
+.ai-menu button{ display:block; width:100%; text-align:left; padding:8px 10px; border-radius:var(--radius-sm); font-size:12.5px; color:var(--text-dim); font-weight:500; }
+.ai-menu button:hover{ background:var(--surface-2); color:var(--text); }
 
 /* ============================= GENERATOR VIEW ============================= */
 .gen-grid{ display:grid; grid-template-columns:1fr 340px; gap:18px; align-items:start; }
@@ -310,6 +320,9 @@ kbd{ font-family:var(--font-mono); font-size:11px; background:var(--surface-2); 
   .stat-grid{ grid-template-columns:1fr 1fr; }
 }
 </style>
+  <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
 </head>
 <body>
 <div id="app">
@@ -381,6 +394,11 @@ kbd{ font-family:var(--font-mono); font-size:11px; background:var(--surface-2); 
       </button>
       <div class="sidebar-footer">
         <div class="upgrade-card"><b>Built for voice</b>Runs entirely in your browser using its built‑in speech engine — no audio ever leaves your device.</div>
+        <div style="margin-top:10px; padding:10px 12px; border:1px solid var(--border-soft); border-radius:var(--radius-md); background:var(--surface-2); font-size:11.5px; color:var(--text-dim); text-align:center; line-height:1.5;">
+          <div style="color:var(--text); font-family:var(--font-display); font-weight:600; font-size:12px; margin-bottom:2px;">Created by</div>
+          <div style="color:var(--accent-2); font-weight:600;">@bangtanATEofficial_0</div>
+          <div style="color:var(--text-faint); font-size:10.5px; margin-top:1px;">on YouTube</div>
+        </div>
       </div>
     </nav>
 
@@ -407,7 +425,10 @@ kbd{ font-family:var(--font-mono); font-size:11px; background:var(--surface-2); 
               <button class="btn-icon" id="saveScriptBtn" title="Save script (Ctrl+S)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></button>
               <button class="btn-icon" id="clearBtn" title="Clear text"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg></button>
               <div class="divider"></div>
-              <button class="btn-secondary btn-sm" id="aiAssistBtn">✨ Improve writing</button>
+              <div class="ai-wrap">
+                <button class="btn-secondary btn-sm" id="aiAssistBtn">✨ Improve writing</button>
+                <div class="ai-menu" id="aiMenu"></div>
+              </div>
               <div class="spacer"></div>
               <span class="save-status"><span class="sdot"></span><span id="saveStatusText">Saved</span></span>
             </div>
@@ -649,10 +670,10 @@ kbd{ font-family:var(--font-mono); font-size:11px; background:var(--surface-2); 
         </div>
         <div class="card panel-block" style="margin-bottom:14px;">
           <h3>Keyboard shortcuts</h3>
-          <div class="setting-row"><div class="sr-title">Generate voice</div><kbd>Ctrl/⌘</kbd> + <kbd>Enter</kbd></div>
-          <div class="setting-row"><div class="sr-title">Save script</div><kbd>Ctrl/⌘</kbd> + <kbd>S</kbd></div>
-          <div class="setting-row"><div class="sr-title">Undo</div><kbd>Ctrl/⌘</kbd> + <kbd>Z</kbd></div>
-          <div class="setting-row"><div class="sr-title">Redo</div><kbd>Ctrl/⌘</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></div>
+          <div class="setting-row"><div class="sr-title">Generate voice</div><span><kbd>Ctrl/⌘</kbd> + <kbd>Enter</kbd></span></div>
+          <div class="setting-row"><div class="sr-title">Save script</div><span><kbd>Ctrl/⌘</kbd> + <kbd>S</kbd></span></div>
+          <div class="setting-row"><div class="sr-title">Undo</div><span><kbd>Ctrl/⌘</kbd> + <kbd>Z</kbd></span></div>
+          <div class="setting-row"><div class="sr-title">Redo</div><span><kbd>Ctrl/⌘</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></span></div>
         </div>
         <div class="card panel-block">
           <h3>Data</h3>
@@ -707,6 +728,10 @@ kbd{ font-family:var(--font-mono); font-size:11px; background:var(--surface-2); 
 </div>
 
 <div id="toast-stack"></div>
+
+<footer style="position:fixed; bottom:6px; left:50%; transform:translateX(-50%); z-index:30; font-size:10.5px; color:var(--text-faint); font-family:var(--font-body); text-align:center; pointer-events:none; white-space:nowrap; opacity:.85;">
+  Created by <span style="color:var(--accent-2); font-weight:600;">@bangtanATEofficial_0</span> on YouTube
+</footer>
 
 <script>
 (function(){
@@ -891,22 +916,25 @@ if('speechSynthesis' in window){
 
 function getVoice(id){ return voices.find(v=>v.id===id); }
 
+/* Language select — populated whenever voices load, but the change
+   listener is attached ONCE at init so it keeps working every time. */
 function populateLanguageSelect(){
   const sel = document.getElementById('languageSelect');
   const langs = [...new Map(voices.map(v=>[v.lang, v.langLabel])).entries()].sort((a,b)=>a[1].localeCompare(b[1]));
   sel.innerHTML = langs.map(([code,label])=>`<option value="${code}">${label}</option>`).join('') || '<option>No languages detected</option>';
   const cur = getVoice(selectedVoiceId);
   if(cur) sel.value = cur.lang;
-  sel.addEventListener('change', ()=>{
-    const match = voices.find(v=>v.lang===sel.value);
-    if(match){ selectedVoiceId = match.id; updateVoicePickerUI(); toast('Switched language to ' + match.langLabel); }
-  }, {once:true});
 }
 function populateLangFilter(){
   const sel = document.getElementById('langFilter');
   const langs = [...new Map(voices.map(v=>[v.lang, v.langLabel])).entries()].sort((a,b)=>a[1].localeCompare(b[1]));
   sel.innerHTML = '<option value="">All languages</option>' + langs.map(([code,label])=>`<option value="${code}">${label}</option>`).join('');
 }
+document.getElementById('languageSelect').addEventListener('change', ()=>{
+  const sel = document.getElementById('languageSelect');
+  const match = voices.find(v=>v.lang===sel.value);
+  if(match){ selectedVoiceId = match.id; updateVoicePickerUI(); toast('Switched language to ' + match.langLabel); }
+});
 
 const PALETTE = [ [124,108,255],[53,224,192],[255,122,89],[255,92,156],[255,194,75],[64,170,255],[92,232,122],[186,120,255],[255,150,60],[80,200,220] ];
 function avatarColor(seed){
@@ -1033,9 +1061,68 @@ document.querySelectorAll('.pause-toolbar button').forEach(btn=>{
   });
 });
 
-const AI_TOOLS = ['Improve writing','Make shorter','Make longer','Make more natural','Make more professional','Fix grammar','Add pauses for speech'];
-document.getElementById('aiAssistBtn').addEventListener('click', ()=>{
-  toast('Select text in the editor, then choose a rewrite tool. (Demo: connect an AI writing model to enable this.)');
+/* ============================================================
+   AI ASSIST (local text transformations)
+   ============================================================ */
+const AI_ACTIONS = [
+  { label:'✨ Improve writing', fn: text => {
+    let t = text.replace(/[ \t]+/g,' ').replace(/\s+\n/g,'\n').trim();
+    t = t.replace(/([.!?]\s+)([a-z])/g, (m,p,c)=> p + c.toUpperCase());
+    if(t) t = t.charAt(0).toUpperCase() + t.slice(1);
+    return t;
+  }},
+  { label:'✂ Make shorter', fn: text => {
+    const filler = /\b(?:very|really|just|actually|basically|literally|simply|quite|rather|kind of|sort of|you know|i mean|in order to)\b/gi;
+    let t = text.replace(filler,'').replace(/\b(in order to)\b/gi,'to');
+    return t.replace(/\s+/g,' ').replace(/\s+([.,;])/g,'$1').trim();
+  }},
+  { label:'💬 Make more natural', fn: text => {
+    return text
+      .replace(/\bdo not\b/gi,"don't").replace(/\bdoes not\b/gi,"doesn't")
+      .replace(/\bcannot\b/gi,"can't").replace(/\bwill not\b/gi,"won't")
+      .replace(/\bit is\b/gi,"it's").replace(/\bthat is\b/gi,"that's")
+      .replace(/\bI am\b/g,"I'm").replace(/\byou are\b/gi,"you're")
+      .replace(/\bthey are\b/gi,"they're").replace(/\bwe are\b/gi,"we're");
+  }},
+  { label:'✔ Fix grammar & capitalization', fn: text => {
+    let t = text.replace(/[ \t]+/g,' ').trim();
+    t = t.replace(/([.!?]\s+)([a-z])/g, (m,p,c)=> p + c.toUpperCase());
+    t = t.replace(/\s+([.,;:!?])/g,'$1');
+    t = t.replace(/\bi\b/g,'I');
+    if(t) t = t.charAt(0).toUpperCase() + t.slice(1);
+    return t;
+  }},
+  { label:'⏸ Add pauses for speech', fn: text => {
+    return text.replace(/([.!?])\s+/g,'$1 [medium pause] ').replace(/([,;:])\s+/g,'$1 [short pause] ');
+  }}
+];
+const aiMenu = document.getElementById('aiMenu');
+aiMenu.innerHTML = AI_ACTIONS.map((a,i)=>`<button data-ai="${i}">${a.label}</button>`).join('');
+document.getElementById('aiAssistBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  aiMenu.classList.toggle('show');
+});
+document.addEventListener('click', e=>{ if(!e.target.closest('.ai-wrap')) aiMenu.classList.remove('show'); });
+aiMenu.querySelectorAll('[data-ai]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const action = AI_ACTIONS[+b.dataset.ai];
+    const start = scriptInput.selectionStart, end = scriptInput.selectionEnd;
+    const hasSel = start !== end;
+    const input = hasSel ? scriptInput.value.slice(start, end) : scriptInput.value;
+    if(!input.trim()){ toast('Write or select some text first','error'); aiMenu.classList.remove('show'); return; }
+    const out = action.fn(input);
+    if(hasSel){
+      scriptInput.value = scriptInput.value.slice(0,start) + out + scriptInput.value.slice(end);
+      scriptInput.selectionStart = start; scriptInput.selectionEnd = start + out.length;
+    } else {
+      scriptInput.value = out;
+    }
+    updateCounts(); state.draft.text = scriptInput.value; persist('draft');
+    document.getElementById('saveStatusText').textContent = 'Saved';
+    aiMenu.classList.remove('show');
+    toast(action.label.replace(/^[^\sA-Za-z]+\s*/,'') + ' applied');
+    scriptInput.focus();
+  });
 });
 
 /* save script */
@@ -1043,7 +1130,6 @@ function saveScript(showToast){
   const text = scriptInput.value.trim();
   if(!text){ toast('Write something before saving','error'); return; }
   const title = document.getElementById('genTitle').textContent.trim() || 'Untitled script';
-  const existing = state.scripts.find(s=>s.title===title && s.active);
   const words = text.split(/\s+/).length;
   const rec = { id: 'scr_'+Date.now(), title, text, words, updated: Date.now() };
   state.scripts.unshift(rec);
@@ -1198,13 +1284,13 @@ function runGeneration(){
   }, 1650);
 }
 
-function speakAndReveal(rawText, voice){
+function speakAndReveal(rawText, voice, rateOverride){
   try{ synth.cancel(); }catch(e){}
   const spokenText = applyPronunciation(rawText);
   const u = new SpeechSynthesisUtterance(spokenText);
   u.voice = voice.raw; u.lang = voice.lang;
   const emo = EMOTION_MAP[selectedEmotion] || EMOTION_MAP.Neutral;
-  const baseRate = parseFloat(speedSlider.value)||1;
+  const baseRate = rateOverride != null ? rateOverride : (parseFloat(speedSlider.value)||1);
   const basePitch = 1 + (parseFloat(pitchSlider.value)||0)/10;
   u.rate = Math.min(2, Math.max(0.5, baseRate * emo.rate));
   u.pitch = Math.min(2, Math.max(0, basePitch * emo.pitch));
@@ -1265,13 +1351,26 @@ document.getElementById('playToggleBtn').addEventListener('click', ()=>{
   if(!currentUtterance){ return; }
   if(synth.speaking && !synth.paused){ synth.pause(); setPlayIcon(false); stopPlaybackClock(); }
   else if(synth.paused){ synth.resume(); setPlayIcon(true); startPlaybackClock(); }
-  else if(currentResult){ speakAndReveal(currentResult.text, getVoice(currentResult.voiceId) || getVoice(selectedVoiceId)); }
+  else if(currentResult){
+    const ps = parseFloat(document.getElementById('playbackSpeedSelect').value)||1;
+    speakAndReveal(currentResult.text, getVoice(currentResult.voiceId) || getVoice(selectedVoiceId), ps);
+  }
 });
 document.getElementById('restartBtn').addEventListener('click', ()=>{
-  if(currentResult){ speakAndReveal(currentResult.text, getVoice(currentResult.voiceId) || getVoice(selectedVoiceId)); toast('Restarted'); }
+  if(currentResult){
+    const ps = parseFloat(document.getElementById('playbackSpeedSelect').value)||1;
+    speakAndReveal(currentResult.text, getVoice(currentResult.voiceId) || getVoice(selectedVoiceId), ps);
+    toast('Restarted');
+  }
 });
 document.getElementById('playbackSpeedSelect').addEventListener('change', (e)=>{
-  toast("Playback speed will apply next time you play (browser voices can't change speed mid-line)");
+  const ps = parseFloat(e.target.value)||1;
+  if(currentResult && !document.getElementById('view-generator').classList.contains('hidden')){
+    speakAndReveal(currentResult.text, getVoice(currentResult.voiceId) || getVoice(selectedVoiceId), ps);
+    toast('Playback speed: ' + ps + 'x');
+  } else {
+    toast('Playback speed set to ' + ps + 'x');
+  }
 });
 document.getElementById('closeResultBtn').addEventListener('click', ()=>{
   try{ synth.cancel(); }catch(e){}
@@ -1446,6 +1545,7 @@ const projectModal = document.getElementById('projectModal');
 document.getElementById('newProjectBtn').addEventListener('click', ()=>{
   document.getElementById('projectNameInput').value=''; document.getElementById('projectDescInput').value='';
   projectModal.classList.add('show');
+  setTimeout(()=>document.getElementById('projectNameInput').focus(), 50);
 });
 document.getElementById('closeProjectModal').addEventListener('click', ()=> projectModal.classList.remove('show'));
 projectModal.addEventListener('click', e=>{ if(e.target===projectModal) projectModal.classList.remove('show'); });
@@ -1500,7 +1600,6 @@ function openScript(id){
 }
 function renderScripts(){
   const list = document.getElementById('scriptsList');
-  const q = '';
   if(!state.scripts.length){
     list.innerHTML = `<div class="empty-state"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>
       <h3>No saved scripts</h3><p>Save a script from the generator to find it here later.</p></div>`;
@@ -1621,6 +1720,7 @@ document.getElementById('addDictBtn').addEventListener('click', ()=>{
   persist('dictionary');
   document.getElementById('dictWord').value=''; document.getElementById('dictPron').value='';
   renderDictionary(); toast('Pronunciation saved');
+  document.getElementById('dictWord').focus();
 });
 function renderDictionary(){
   const list = document.getElementById('dictList');
@@ -1688,3 +1788,4 @@ setTimeout(()=>{ if(!voicesReady) toast("Still loading your browser's voices —
 </script>
 </body>
 </html>
+
